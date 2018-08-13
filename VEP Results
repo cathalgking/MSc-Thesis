@@ -1,7 +1,29 @@
-#HN51 TUmour
-http://grch37.ensembl.org/Homo_sapiens/Tools/VEP/Ticket?tl=ttoZdoctgsmNt52f
+### Please copy the desired link into web browser to view the VEP output ###
 
-#Variants common to tumour and recurrence data i.e.variants that survived chemotherapy.
+
+#Variants common to tumour and recurrence data (chemo-resistant).
 http://grch37.ensembl.org/Homo_sapiens/Tools/VEP/Ticket?tl=nBenWuyDZTs1qlyh
 
+#Variants common to normal and recurrence 
+http://grch37.ensembl.org/Homo_sapiens/Tools/VEP/Results?db=core;tl=faMwODgXnPFAJR4L-4434545
 
+#Variants common to normal and tumour
+http://grch37.ensembl.org/Homo_sapiens/Tools/VEP/Results?db=core;tl=RgVIES5pacfKmFJM-4435955
+
+#Variants from HN51 Primary Tumour
+http://grch37.ensembl.org/Homo_sapiens/Tools/VEP/Ticket?tl=ttoZdoctgsmNt52f
+
+#Variants from HN60 Primary Tumour
+http://grch37.ensembl.org/Homo_sapiens/Tools/VEP/Results?db=core;tl=cBrFK0bJb31QtJTr-4422388
+
+#Variants from HN72 Primary Tumour
+http://grch37.ensembl.org/Homo_sapiens/Tools/VEP/Results?db=core;tl=gDTotpDPJCoBUr1J-4422382
+
+#Variants from HN51 Recurrence Tumour
+http://grch37.ensembl.org/Homo_sapiens/Tools/VEP/Results?db=core;tl=lfMNLFBCTzBZQvsI-4422390
+
+#Variants from HN60 Recurrence Tumour
+http://grch37.ensembl.org/Homo_sapiens/Tools/VEP/Results?db=core;tl=s1kR9QOJWUdJp7lG-4422396
+
+#Variants from HN72 Recurrence Tumour
+http://grch37.ensembl.org/Homo_sapiens/Tools/VEP/Results?db=core;tl=TH9mdtOuLWFKzYlK-4422393
