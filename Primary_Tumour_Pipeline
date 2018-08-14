@@ -85,3 +85,61 @@ HN72s1.AC254KACXX.lane_1_P2_I14_Rev_PAIRED.fastq | samtools view -Sb - > HN72AC.
 #map72AH
 bwa mem -M -t 8 -R '@RG\tID:BD1LYPACXX.3\tSM:HN52\tLB:I12' hg19.fa HN72s1.AH0LENADXX.lane_2_P1_I14_For_paired.fastq \
 HN72s1.AH0LENADXX.lane_2_P2_I14_Rev_PAIRED.fastq | samtools view -Sb - > HN72AH.tumour.bam
+
+
+### Picard
+
+CreateSequenceDictionary
+• AddOrReplaceReadGroups
+• CollectAlignmentSummaryMetrics
+• SortSam
+• MarkDuplicates
+• CollectHsMetrics
+• BuildBamIndex
+
+module load jdk
+
+#create sequence dictionary
+java -jar picard.jar CreateSequenceDictionary \ 
+R=hg19.fa \ 
+O=hg19.dict
+
+#fix read groups
+java -jar picard.jar AddOrReplaceReadGroups \
+I=HN51.tumour.bam \
+O=HN51.tumour.RG.bam \
+RGLB=I12 \
+RGPL=illumina \
+RGPU=unit2 \
+RGSM=HN51_tumour \
+RGID=BD1LYPACXX.3
+
+java -jar picard.jar AddOrReplaceReadGroups \
+I=HN60.tumour.bam \
+O=HN60.tumour.RG.bam \
+RGLB=I12 \
+RGPL=illumina \
+RGPU=unit2 \
+RGSM=HN60_tumour \
+RGID=BD1LYPACXX.3
+
+java -jar picard.jar AddOrReplaceReadGroups \
+I=HN72AC.tumour.bam \
+O=HN72AC.tumour.RG.bam \
+RGLB=I12 \
+RGPL=illumina \
+RGPU=unit2 \
+RGSM=HN72AC_tumour \
+RGID=BD1LYPACXX.3
+
+java -jar picard.jar AddOrReplaceReadGroups \
+I=HN72AH.tumour.bam \
+O=HN72AH.tumour.RG.bam \
+RGLB=I12 \
+RGPL=illumina \
+RGPU=unit2 \
+RGSM=HN72AH_tumour \
+RGID=BD1LYPACXX.3
+
+
+
