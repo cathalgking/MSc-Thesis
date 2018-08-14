@@ -3,7 +3,7 @@
 #!/bin/bash
 
 # Your job name
-#$ -N qc_trim_map_tumour
+#$ -N tumour
 
 # The job should be placed into the queue 'all.q'
 #$ -q all.q
