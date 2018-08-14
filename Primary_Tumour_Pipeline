@@ -89,14 +89,6 @@ HN72s1.AH0LENADXX.lane_2_P2_I14_Rev_PAIRED.fastq | samtools view -Sb - > HN72AH.
 
 ### Picard
 
-CreateSequenceDictionary
-• AddOrReplaceReadGroups
-• CollectAlignmentSummaryMetrics
-• SortSam
-• MarkDuplicates
-• CollectHsMetrics
-• BuildBamIndex
-
 module load jdk
 
 #create sequence dictionary
