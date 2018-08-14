@@ -141,5 +141,92 @@ RGPU=unit2 \
 RGSM=HN72AH_tumour \
 RGID=BD1LYPACXX.3
 
+# get alignment metrics
+java -jar picard.jar CollectAlignmentSummaryMetrics \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+R=hg19.fa \
+I=HN51.sorted.tumour.bam \
+O=HN51tumour.align_metrics.txt
+
+java -jar picard.jar CollectAlignmentSummaryMetrics \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+R=hg19.fa \
+I=HN60.sorted.tumour.bam \
+O=HN60tumour.align_metrics.txt
+
+java -jar picard.jar CollectAlignmentSummaryMetrics \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+R=hg19.fa \
+I=HN72AC.sorted.tumour.bam \
+O=HN72ACtumour.align_metrics.txt
+
+java -jar picard.jar CollectAlignmentSummaryMetrics \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+R=hg19.fa \
+I=HN72AH.sorted.tumour.bam \
+O=HN72AHtumour.align_metrics.txt
+
+# sort
+java -jar picard.jar SortSam \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN51.tumour.RG.bam \
+O=HN51.sorted.tumour.bam \
+SORT_ORDER=coordinate
+
+java -jar picard.jar SortSam \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN60.tumour.RG.bam \
+O=HN60.sorted.tumour.bam \
+SORT_ORDER=coordinate
+
+java -jar picard.jar SortSam \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN72AC.tumour.RG.bam \
+O=HN72AC.sorted.tumour.bam \
+SORT_ORDER=coordinate
+
+java -jar picard.jar SortSam \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN72AH.tumour.RG.bam \
+O=HN72AH.sorted.tumour.bam \
+SORT_ORDER=coordinate
+
+# mark duplicates
+
+java -jar picard.jar MarkDuplicates \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN51.sorted.tumour.bam \
+O=HN51.dedup_reads.bam
+METRICS_FILE=metrics.HN60_t.txt
+
+java -jar picard.jar MarkDuplicates \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN60.sorted.tumour.bam \
+O=HN60.dedup_reads.bam
+METRICS_FILE=metrics.HN60_t.txt
+
+java -jar picard.jar MarkDuplicates \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN72AC.sorted.tumour.bam \
+O=HN72AC.dedup_reads.bam \
+METRICS_FILE=metrics.HN72AC_t.txt
+
+java -jar picard.jar MarkDuplicates \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN72AH.sorted.tumour.bam \
+O=HN72AH.dedup_reads.bam \
+METRICS_FILE=metrics.HN72AH_t.txt
 
 
