@@ -263,6 +263,56 @@ I=HN72.dedup_reads.bam
 
 java -jar gatk-package-4.0.2.1-local.jar IndexFeatureFile -F gnomad.exomes.r2.0.2.sites.vcf
 
+# BQSR
+
+java -jar gatk-package-4.0.2.1-local.jar \
+BaseRecalibrator \
+--TMP_DIR=./ \
+-R hg19.fa \
+-I HN51.dedup_reads.bam \
+--known-sites dbsnp_138.hg19.vcf \
+--known-sites Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-O recal_HN51.table
+
+java -jar gatk-package-4.0.2.1-local.jar \
+ApplyBQSR \
+-R hg19.fa \
+-I HN51.dedup_reads.bam \
+--bqsr-recal-file recal_HN51.table \
+-O HN51.dedup_reads.bqsr.bam
+
+java -jar gatk-package-4.0.2.1-local.jar \
+BaseRecalibrator \
+--TMP_DIR=./ \
+-R hg19.fa \
+-I HN60.dedup_reads.bam \
+--known-sites dbsnp_138.hg19.vcf \
+--known-sites Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-O recal_HN60.table
+
+java -jar gatk-package-4.0.2.1-local.jar \
+ApplyBQSR \
+-R hg19.fa \
+-I HN60.dedup_reads.bam \
+--bqsr-recal-file recal_HN60.table \
+-O HN60.dedup_reads.bqsr.bam
+
+java -jar gatk-package-4.0.2.1-local.jar \
+BaseRecalibrator \
+--TMP_DIR=./ \
+-R hg19.fa \
+-I HN72.dedup_reads.bam \
+--known-sites dbsnp_138.hg19.vcf \
+--known-sites Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-O recal_HN72.table
+
+java -jar gatk-package-4.0.2.1-local.jar \
+ApplyBQSR \
+-R hg19.fa \
+-I HN72.dedup_reads.bam \
+--bqsr-recal-file recal_HN72.table \
+-O HN72.dedup_reads.bqsr.bam
+
 
 
 
