@@ -221,4 +221,27 @@ I=HN72AH.sorted.tumour.bam \
 O=HN72AH.dedup_reads.bam \
 METRICS_FILE=metrics.HN72AH_t.txt
 
+# collect hs metrics
+
+java -jar picard.jar CollectHsMetrics \
+I=HN51.dedup_reads.bam \
+O=hs_metrics_HN51_t.txt \
+R=hg19.fa \
+BAIT_INTERVALS=capture_targets_interval_list \
+TARGET_INTERVALS=primary_targets_interval_list
+
+java -jar picard.jar CollectHsMetrics \
+I=HN60.dedup_reads.bam \
+O=hs_metrics_HN60_t.txt \
+R=hg19.fa \
+BAIT_INTERVALS=capture_targets_interval_list \
+TARGET_INTERVALS=primary_targets_interval_list
+
+java -jar picard.jar CollectHsMetrics \
+I=HN72.dedup_reads.bam \
+O=hs_metrics_HN72AC_t.txt \
+R=hg19.fa \
+BAIT_INTERVALS=capture_targets_interval_list \
+TARGET_INTERVALS=primary_targets_interval_list
+
 
