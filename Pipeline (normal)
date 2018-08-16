@@ -69,4 +69,40 @@ ILLUMINACLIP:Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 TRAILING:10 SLIDING
 MINLEN:36
 
 
+#mapping72AC
+bwa mem -M -t 8 -R '@RG\tID:AC254KACXX.2\tSM:HN72_AC\tLB:I15' hg19.fa HN72_AC_254_P1.sequence_For_PAIRED.fastq \
+HN72_AC254_P2.sequence_Rev_PAIRED.fastq | samtools view -Sb - > HN72AC.normal.bam
+
+#map72AH
+bwa mem -M -t 8 -R '@RG\tID:AH0LENADXX.2\tSM:HN72_AH\tLB:I15' hg19.fa HN72_AHOLE_P1.sequence_For_PAIRED.fastq \
+HN72_AHOLE_P2.sequence_Rev_PAIRED.fastq | samtools view -Sb - > HN72AH.normal.bam
+
+#read groups
+java -jar picard.jar AddOrReplaceReadGroups \
+I=HN51.bam \
+O=HN51.normal.RG.bam \
+RGLB=I12 \
+RGPL=illumina \
+RGPU=unit2 \
+RGSM=HN52 \
+RGID=BD1LYPACXX.3
+
+java -jar picard.jar AddOrReplaceReadGroups \
+I=HN60.bam \
+O=HN60.normal.RG.bam \
+RGLB=I16 \
+RGPL=illumina \
+RGPU=unit2 \
+RGSM=HN60 \
+RGID=BD1LYPACXX.7
+
+java -jar picard.jar AddOrReplaceReadGroups \
+I=HN72.bam \
+O=HN72.normal.RG.bam \
+RGLB=I15 \
+RGPL=illumina \
+RGPU=unit2 \
+RGSM=HN72_AC \
+RGID=AC254KACXX.2
+
 
