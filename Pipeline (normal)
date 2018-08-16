@@ -25,47 +25,47 @@ done
 multiqc .;
 
 java -jar Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 8 -phred33 \
--trimlog /data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/var_call.trimlog_HN51 \
-/data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/HN51_s2_normal.BD1LYPACXX.lane_3_P1_I12.hg19.sequence.fastq \
-/data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/HN51_s2_normal.BD1LYPACXX.lane_3_P2_I12.hg19.sequence.fastq \
+-trimlog HN51.trimlog \
+HN51_s2_normal.BD1LYPACXX.lane_3_P1_I12.hg19.sequence.fastq \
+HN51_s2_normal.BD1LYPACXX.lane_3_P2_I12.hg19.sequence.fastq \
 HN51_P1_PAIRED.fastq \
 HN51_P1_UNPAIRED.fastq \
 HN51_P2_PAIRED.fastq \
 HN51_P2_UNPAIRED.fastq \
-ILLUMINACLIP:/data4/nextgen2015/users/17235399/var_ass/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:36
+ILLUMINACLIP:Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:36
 
 
 java -jar Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 8 -phred33 \
--trimlog /data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/var_call.trimlog_HN60 \
-/data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/HN60_s2_normal.BD1LYPACXX.lane_7_P1_I16.hg19.sequence.fastq \
-/data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/HN60_s2_normal.BD1LYPACXX.lane_7_P2_I16.hg19.sequence.fastq \
+-trimlog HN60.trimlog \
+HN60_s2_normal.BD1LYPACXX.lane_7_P1_I16.hg19.sequence.fastq \
+HN60_s2_normal.BD1LYPACXX.lane_7_P2_I16.hg19.sequence.fastq \
 HN60_P1_PAIRED.fastq \
 HN60_P1_UNPAIRED.fastq \
 HN60_P2_PAIRED.fastq \
 HN60_P2_UNPAIRED.fastq \
-ILLUMINACLIP:/data4/nextgen2015/users/17235399/var_ass/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 TRAILING:10 SLIDINGWINDOW:4:15
+ILLUMINACLIP:Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 TRAILING:10 SLIDINGWINDOW:4:15
 MINLEN:36
 
 java -jar Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 8 -phred33 \
--trimlog /data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/var_call.trimlog_HN72_AC254 \
-/data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/HN72_s2_normal.AC254KACXX.lane_2_P1_I15.hg19.sequence.fastq \
-/data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/HN72_s2_normal.AC254KACXX.lane_2_P2_I15.hg19.sequence.fastq \
+-trimlog HN72AC.trimlog \
+HN72_s2_normal.AC254KACXX.lane_2_P1_I15.hg19.sequence.fastq \
+HN72_s2_normal.AC254KACXX.lane_2_P2_I15.hg19.sequence.fastq \
 HN72_P1_AC254KACXX__PAIRED.fastq \
 HN72_P1_AC254KACXX_UNPAIRED.fastq \
 HN72_P2_AC254KACXX_PAIRED.fastq \
 HN72_P2_AC254KACXX_UNPAIRED.fastq \
-ILLUMINACLIP:/data4/nextgen2015/users/17235399/var_ass/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 TRAILING:10 SLIDINGWINDOW:4:15
+ILLUMINACLIP:Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 TRAILING:10 SLIDINGWINDOW:4:15
 MINLEN:36
 
 java -jar Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 8 -phred33 \
--trimlog /data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/var_call.trimlog_HN72_AH0LEN \
-/data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/HN72_s2_normal.AH0LENADXX.lane_2_P1_I15.hg19.sequence.fastq \
-/data4/nextgen2015/users/17235399/var_ass/fastq_files/fastq_files/HN72_s2_normal.AH0LENADXX.lane_2_P2_I15.hg19.sequence.fastq \
+-trimlog HN72AH.trimlog \
+HN72_s2_normal.AH0LENADXX.lane_2_P1_I15.hg19.sequence.fastq \
+HN72_s2_normal.AH0LENADXX.lane_2_P2_I15.hg19.sequence.fastq \
 HN72_P1_AH0LENADXX__PAIRED.fastq \
 HN72_P1_AH0LENADXX_UNPAIRED.fastq \
 HN72_P2_AH0LENADXX_PAIRED.fastq \
 HN72_P2_AH0LENADXX_UNPAIRED.fastq \
-ILLUMINACLIP:/data4/nextgen2015/users/17235399/var_ass/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 TRAILING:10 SLIDINGWINDOW:4:15
+ILLUMINACLIP:Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 TRAILING:10 SLIDINGWINDOW:4:15
 MINLEN:36
 
 
