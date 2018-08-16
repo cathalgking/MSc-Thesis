@@ -213,6 +213,19 @@ I=HN72AH.sorted.tumour.bam \
 O=HN72.dedup_reads.bam \
 METRICS_FILE=metrics.HN72t.txt
 
+
+# convert bed targets files to interval list format for picard
+java -jar picard.jar BedToIntervalList \
+I=SeqCap_EZ_Exome_v3_hg19_primary_targets.bed \
+O=primary_targets_interval_list \
+SD=hg19.dict
+
+java -jar picard.jar BedToIntervalList \
+I=SeqCap_EZ_Exome_v3_hg19_capture_targets.bed \
+O=capture_targets_interval_list \
+SD=hg19.dict
+
+
 # collect hs metrics
 
 java -jar picard.jar CollectHsMetrics \
@@ -235,5 +248,21 @@ O=hs_metrics_HN72AC_t.txt \
 R=hg19.fa \
 BAIT_INTERVALS=capture_targets_interval_list \
 TARGET_INTERVALS=primary_targets_interval_list
+
+# build bam index
+
+java -jar picard.jar BuildBamIndex \
+I=HN51.dedup_reads.bam
+
+java -jar picard.jar BuildBamIndex \
+I=HN60.dedup_reads.bam
+
+java -jar picard.jar BuildBamIndex \
+I=HN72.dedup_reads.bam
+
+
+java -jar gatk-package-4.0.2.1-local.jar IndexFeatureFile -F gnomad.exomes.r2.0.2.sites.vcf
+
+
 
 
