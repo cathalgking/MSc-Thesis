@@ -348,5 +348,52 @@ af-only-gnomad.raw.sites.b37.vcf.gz
 -L SeqCap_EZ_Exome_v3_hg19_primary_targets.bed \
 -O HN72_tumour_somatic.vcf.gz
 
+# filter mutect calls
+# HN51
+java -jar gatk-package-4.0.2.1-local.jar GetPileupSummaries \
+-I HN51.dedup_reads.bqsr.tumour.bam \
+-V threesamplepon.vcf \
+-O HN51t_getpileupsummaries.table
+
+java -jar gatk-package-4.0.2.1-local.jar CalculateContamination \
+-I HN51t_getpileupsummaries.table \
+-O HN51t_contamination.table
+
+java -jar gatk-package-4.0.2.1-local.jar FilterMutectCalls \
+-V HN51_tumour_somatic.vcf \
+-contamination-table HN51t_contamination.table \
+-O HN51_tumour_somatic_filtered.vcf
+
+#HN60
+java -jar gatk-package-4.0.2.1-local.jar GetPileupSummaries \
+-I HN60.dedup_reads.bqsr.tumour.bam \
+-V threesamplepon.vcf \
+-O HN60t_getpileupsummaries.table
+
+java -jar gatk-package-4.0.2.1-local.jar CalculateContamination \
+-I HN60t_getpileupsummaries.table \
+-O HN60t_contamination.table
+
+java -jar gatk-package-4.0.2.1-local.jar FilterMutectCalls \
+-V HN60_tumour_somatic.vcf \
+-contamination-table HN60t_contamination.table \
+-O HN60_tumour_somatic_filtered.vcf
+
+#HN72
+java -jar gatk-package-4.0.2.1-local.jar GetPileupSummaries \
+-I HN72.dedup_reads.bqsr.tumour.bam \
+-V threesamplepon.vcf \
+-O HN72t_getpileupsummaries.table
+
+java -jar gatk-package-4.0.2.1-local.jar CalculateContamination \
+-I HN72t_getpileupsummaries.table \
+-O HN72t_contamination.table
+
+java -jar gatk-package-4.0.2.1-local.jar FilterMutectCalls \
+-V HN72_tumour_somatic.vcf \
+-contamination-table HN72t_contamination.table \
+-O HN72_tumour_somatic_filtered.vcf
+
+
 
 
