@@ -68,15 +68,6 @@ HN72_P2_AH0LENADXX_UNPAIRED.fastq \
 ILLUMINACLIP:Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 TRAILING:10 SLIDINGWINDOW:4:15
 MINLEN:36
 
-
-#mapping72AC
-bwa mem -M -t 8 -R '@RG\tID:AC254KACXX.2\tSM:HN72_AC\tLB:I15' hg19.fa HN72_AC_254_P1.sequence_For_PAIRED.fastq \
-HN72_AC254_P2.sequence_Rev_PAIRED.fastq | samtools view -Sb - > HN72AC.normal.bam
-
-#map72AH
-bwa mem -M -t 8 -R '@RG\tID:AH0LENADXX.2\tSM:HN72_AH\tLB:I15' hg19.fa HN72_AHOLE_P1.sequence_For_PAIRED.fastq \
-HN72_AHOLE_P2.sequence_Rev_PAIRED.fastq | samtools view -Sb - > HN72AH.normal.bam
-
 #read groups
 java -jar picard.jar AddOrReplaceReadGroups \
 I=HN51.bam \
