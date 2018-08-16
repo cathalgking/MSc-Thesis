@@ -105,4 +105,166 @@ RGPU=unit2 \
 RGSM=HN72_AC \
 RGID=AC254KACXX.2
 
+# sort sam
+java -jar picard.jar SortSam \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN51.normal.RG.bam \
+O=HN51.sorted.normal.bam \
+SORT_ORDER=coordinate
+
+java -jar picard.jar SortSam \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN60.normal.RG.bam \
+O=HN60.sorted.normal.bam \
+SORT_ORDER=coordinate
+
+java -jar picard.jar SortSam \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN72.normal.RG.bam \
+O=HN72.sorted.normal.bam \
+SORT_ORDER=coordinate
+
+#mark duplicates
+java -jar picard.jar MarkDuplicates \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN51.sorted.normal.bam \
+O=HN51.dedup_reads.bam \
+METRICS_FILE=metrics.HN51_n.txt
+
+java -jar picard.jar MarkDuplicates \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN60.sorted.normal.bam \
+O=HN60.dedup_reads.bam \
+METRICS_FILE=metrics.HN60_n.txt
+
+java -jar picard.jar MarkDuplicates \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN72.sorted.normal.bam \
+O=HN72.dedup_reads.bam \
+METRICS_FILE=metrics.HN72AC_t.txt
+
+
+#collect hs metrics
+
+java -jar picard.jar CollectHsMetrics \
+I=HN51.dedup_reads.bam \
+O=hs_metrics_HN51_t.txt \
+R=hg19.fa \
+BAIT_INTERVALS=capture_targets_interval_list \
+TARGET_INTERVALS=primary_targets_interval_list
+
+java -jar picard.jar CollectHsMetrics \
+I=HN60.dedup_reads.bam \
+O=hs_metrics_HN60_t.txt \
+R=hg19.fa \
+BAIT_INTERVALS=capture_targets_interval_list \
+TARGET_INTERVALS=primary_targets_interval_list
+
+java -jar picard.jar CollectHsMetrics \
+I=HN72.dedup_reads.bam \
+O=hs_metrics_HN72_n.txt \
+R=hg19.fa \
+BAIT_INTERVALS=capture_targets_interval_list \
+TARGET_INTERVALS=primary_targets_interval_list
+
+# build bam index
+
+java -jar picard.jar BuildBamIndex \
+I=HN51.dedup_reads.bam
+
+java -jar picard.jar BuildBamIndex \
+I=HN60.dedup_reads.bam
+
+java -jar picard.jar BuildBamIndex \
+I=HN72.dedup_reads.bam
+
+
+# BQSR
+
+java -jar gatk-package-4.0.2.1-local.jar \
+BaseRecalibrator \
+--TMP_DIR=./ \
+-R hg19.fa \
+-I HN51.dedup_reads.bam \
+--known-sites dbsnp_138.hg19.vcf \
+--known-sites Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-O recal_HN51.table
+
+java -jar gatk-package-4.0.2.1-local.jar \
+ApplyBQSR \
+-R hg19.fa \
+-I HN51.dedup_reads.bam \
+--bqsr-recal-file recal_HN51.table \
+-O HN51.dedup_reads.bqsr.bam
+
+java -jar gatk-package-4.0.2.1-local.jar \
+BaseRecalibrator \
+--TMP_DIR=./ \
+-R hg19.fa \
+-I HN60.dedup_reads.bam \
+--known-sites dbsnp_138.hg19.vcf \
+--known-sites Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-O recal_HN60.table
+
+java -jar gatk-package-4.0.2.1-local.jar \
+ApplyBQSR \
+-R hg19.fa \
+-I HN60.dedup_reads.bam \
+--bqsr-recal-file recal_HN60.table \
+-O HN60.dedup_reads.bqsr.bam
+
+java -jar gatk-package-4.0.2.1-local.jar \
+BaseRecalibrator \
+--TMP_DIR=./ \
+-R hg19.fa \
+-I HN72.dedup_reads.bam \
+--known-sites dbsnp_138.hg19.vcf \
+--known-sites Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-O recal_HN72.table
+
+java -jar gatk-package-4.0.2.1-local.jar \
+ApplyBQSR \
+-R hg19.fa \
+-I HN72.dedup_reads.bam \
+--bqsr-recal-file recal_HN72.table \
+-O HN72.dedup_reads.bqsr.bam
+
+### call mutect on each normal sample ###
+
+java -jar gatk-package-4.0.2.1-local.jar Mutect2 \
+-R hg19.fa \
+-I HN51.dedup_reads.bqsr.bam \
+-tumor HN52 \
+-L SeqCap_EZ_Exome_v3_hg19_primary_targets.bed \
+-O HN51normal_for_pon.vcf.gz
+
+java -jar gatk-package-4.0.2.1-local.jar Mutect2 \
+-R hg19.fa \
+-I HN60.dedup_reads.bqsr.bam \
+-tumor HN60 \
+-L SeqCap_EZ_Exome_v3_hg19_primary_targets.bed \
+-O HN60normal_for_pon.vcf.gz
+
+java -jar gatk-package-4.0.2.1-local.jar Mutect2 \
+-R hg19.fa \
+-I HN72.dedup_reads.bqsr.rg.bam \
+-tumor HN72 \
+-L SeqCap_EZ_Exome_v3_hg19_primary_targets.bed \
+-O HN72normal2_for_pon.vcf.gz
+
+### make somatic panel of normals ###
+
+java -jar gatk-package-4.0.6.0-local.jar CreateSomaticPanelOfNormals \
+-vcfs HN51normal_for_pon.vcf.gz \
+-vcfs HN60normal_for_pon.vcf.gz \
+-vcfs HN72normal2_for_pon.vcf.gz \
+-O threesamplepon.vcf.gz
+
+
 
