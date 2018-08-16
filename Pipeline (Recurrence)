@@ -167,7 +167,101 @@ I=HN60.sorted.recur.bam \
 O=HN60.dedup_reads.bam \
 METRICS_FILE=metrics.HN60_R.txt
 
+java -jar picard.jar MarkDuplicates \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN72AC.sorted.recur.bam \
+O=HN72AC.dedup_reads.bam \
+METRICS_FILE=metrics.HN72AC_R.txt
+
+java -jar picard.jar MarkDuplicates \
+TMP_DIR=./ \
+MAX_RECORDS_IN_RAM=2000000 \
+I=HN72AH.sorted.recur.bam \
+O=HN72AH.dedup_reads.bam \
+METRICS_FILE=metrics.HN72AH_R.txt
+
+# BQSR
+
+java -jar gatk-package-4.0.2.1-local.jar \
+BaseRecalibrator \
+--TMP_DIR=./ \
+-R hg19.fa \
+-I HN51.dedup_reads.bam \
+--known-sites dbsnp_138.hg19.vcf \
+--known-sites Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-O recal_HN51.table
+
+java -jar gatk-package-4.0.2.1-local.jar \
+ApplyBQSR \
+-R hg19.fa \
+-I HN51.dedup_reads.bam \
+--bqsr-recal-file recal_HN51.table \
+-O HN51.dedup_reads.bqsr.bam
+
+java -jar gatk-package-4.0.2.1-local.jar \
+BaseRecalibrator \
+--TMP_DIR=./ \
+-R hg19.fa \
+-I HN60.dedup_reads.bam \
+--known-sites dbsnp_138.hg19.vcf \
+--known-sites Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-O recal_HN60.table
+
+java -jar gatk-package-4.0.2.1-local.jar \
+ApplyBQSR \
+-R hg19.fa \
+-I HN60.dedup_reads.bam \
+--bqsr-recal-file recal_HN60.table \
+-O HN60.dedup_reads.bqsr.bam
+
+java -jar gatk-package-4.0.2.1-local.jar \
+BaseRecalibrator \
+--TMP_DIR=./ \
+-R hg19.fa \
+-I HN72.dedup_reads.bam \
+--known-sites dbsnp_138.hg19.vcf \
+--known-sites Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-O recal_HN72.table
+
+java -jar gatk-package-4.0.2.1-local.jar \
+ApplyBQSR \
+-R hg19.fa \
+-I HN72.dedup_reads.bam \
+--bqsr-recal-file recal_HN72.table \
+-O HN72.dedup_reads.bqsr.bam
+
+# mutect
+
+java -jar gatk-package-4.0.2.1-local.jar Mutect2 \
+-R hg19.fa \
+-I HN51.dedup_reads.bqsr.recurrence.bam \
+-tumor HN51_recur \
+-I HN51.dedup_reads.bqsr.normal.bam \
+-normal HN52 \
+-pon threesamplepon.vcf.gz \
+-L SeqCap_EZ_Exome_v3_hg19_primary_targets.bed \
+-O HN51_recurrence_somatic.vcf.gz
+
+java -jar gatk-package-4.0.2.1-local.jar Mutect2 \
+-R hg19.fa \
+-I HN60.dedup_reads.bqsr.recurrence.bam \
+-tumor HN60_recur \
+-I HN60.dedup_reads.bqsr.normal.bam \
+-normal HN60 \
+-pon threesamplepon.vcf.gz \
+-L SeqCap_EZ_Exome_v3_hg19_primary_targets.bed \
+-O HN60_recurrence_somatic.vcf.gz
 
 
+java -jar gatk-package-4.0.2.1-local.jar Mutect2 \
+-R hg19.fa \
+-I HN72.dedup_reads.bqsr.recurrence.bam \
+-tumor HN72_recur \
+-I HN72.dedup_reads.bqsr.normal.bam \
+-normal HN72 \
+-pon threesamplepon.vcf.gz \
+-L SeqCap_EZ_Exome_v3_hg19_primary_targets.bed \
+-O HN72_recurrence_somatic.vcf.gz
 
 
