@@ -317,7 +317,7 @@ ApplyBQSR \
 
 java -jar gatk-package-4.0.2.1-local.jar Mutect2 \
 -R hg19.fa \
--I HN51.dedup_reads.bqsr.bam \
+-I HN51.dedup_reads.bqsr.tumour.bam \
 -tumor HN51_tumour \
 -I HN51.dedup_reads.bqsr.normal.bam \
 -normal HN51 \
