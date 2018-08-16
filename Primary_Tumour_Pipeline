@@ -208,18 +208,10 @@ O=HN60.dedup_reads.bam
 METRICS_FILE=metrics.HN60_t.txt
 
 java -jar picard.jar MarkDuplicates \
-TMP_DIR=./ \
-MAX_RECORDS_IN_RAM=2000000 \
 I=HN72AC.sorted.tumour.bam \
-O=HN72AC.dedup_reads.bam \
-METRICS_FILE=metrics.HN72AC_t.txt
-
-java -jar picard.jar MarkDuplicates \
-TMP_DIR=./ \
-MAX_RECORDS_IN_RAM=2000000 \
 I=HN72AH.sorted.tumour.bam \
-O=HN72AH.dedup_reads.bam \
-METRICS_FILE=metrics.HN72AH_t.txt
+O=HN72.dedup_reads.bam \
+METRICS_FILE=metrics.HN72t.txt
 
 # collect hs metrics
 
