@@ -1,0 +1,106 @@
+---
+title: "maftools"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+### Mayakonda, A. & Koeffler, H.P. Maftools: Efficient analysis, visualization and summarization of MAF files from large-scale cohort based cancer studies. bioRxiv (2016). doi: http://dx.doi.org/10.1101/052662
+
+
+
+ann.file <- read.delim("/home/user3/Desktop/combinedAnnovar.txt")
+
+#ann.file$Tumor_Sample_Barcode <- "Sample" # add tumor sample column
+
+#write.table(ann.file, file="combined_variants.txt", row.names = FALSE, sep = "\t", quote = FALSE)
+
+var.annovar.maf2 = annovarToMaf(annovar = "combined_variants.txt", Center = 'NUIG', refBuild = 'hg19', tsbCol = "Tumor_Sample_Barcode")
+
+maf2 <- read.maf(var.annovar.maf2)
+
+```
+
+
+```{r}
+
+
+
+#plot summary info about the combined MAF file
+plotmafSummary(maf2)
+
+
+maf2.titv = titv(maf = maf2, plot = FALSE, useSyn = TRUE)
+#plot titv summary
+plotTiTv(res = maf2.titv)
+
+
+lollipopPlot(maf = maf2, gene = 'MUC6', AACol = 'Protein_Change', showMutationRate = TRUE)
+
+lollipopPlot(maf = maf2, gene = 'ZNF717', AACol = 'Protein_Change', showMutationRate = TRUE)
+
+
+lollipopPlot(maf = maf2, gene = 'CDC27', AACol = 'Protein_Change', showMutationRate = TRUE)
+
+
+lollipopPlot(maf = maf2, gene = 'MUC16', AACol = 'Protein_Change', showMutationRate = TRUE)
+
+#high  impact OR13C5 gene
+lollipopPlot(maf = maf2, gene = 'OR13C5', AACol = 'Protein_Change', showMutationRate = TRUE, labelPos = 'all')
+
+lollipopPlot(maf = maf2, gene = 'FAT1', AACol = 'Protein_Change', showMutationRate = TRUE, labelPos = 'all')
+
+lollipopPlot(maf = maf2, gene = 'TP53', AACol = 'Protein_Change', showMutationRate = TRUE)
+
+lollipopPlot(maf = maf2, gene = 'ZNF880', AACol = 'Protein_Change', showMutationRate = TRUE, labelPos = 'all')
+
+lollipopPlot(maf = maf2, gene = 'GBP4', AACol = 'Protein_Change', showMutationRate = TRUE, labelPos = 'all')
+
+
+
+```
+
+
+```{r}
+#rainfall plot
+rainfallPlot(maf = maf2, detectChangePoints = TRUE, fontSize = 12, pointSize = 0.6)
+
+#Compare mutation load against TCGA cohorts
+laml.mutload = tcgaCompare(maf = maf2, cohortName = 'Project')
+
+
+
+
+
+
+```
+
+
+```{r}
+#plotOncoDrive driver genes
+laml.sig = oncodrive(maf = maf2, AACol = 'Protein_Change', minMut = 5, pvalMethod = 'zscore')
+
+plotOncodrive(res = laml.sig, fdrCutOff = 0.1, useFraction = TRUE, labelSize = 5)
+
+```
+
+```{r}
+#tumour heterogenity
+tcga.het = inferHeterogeneity(maf = maf2, vafCol = 'X1000G_ALL', useSyn = TRUE)
+
+print(tcga.het$clusterMeans)
+
+plotClusters(clusters = tcga.het)
+
+```
+
+
+
+
+
+
+
