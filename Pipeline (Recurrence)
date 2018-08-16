@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Your job name
-#$ -N tumour
+#$ -N recurrence
 
 # The job should be placed into the queue 'all.q'
 #$ -q all.q
@@ -149,8 +149,6 @@ I=HN72AH.recur.RG.bam \
 O=HN72AH.sorted.recur.bam \
 SORT_ORDER=coordinate
 
-
-
 #mark duplicates
 
 java -jar picard.jar MarkDuplicates \
@@ -263,5 +261,51 @@ java -jar gatk-package-4.0.2.1-local.jar Mutect2 \
 -pon threesamplepon.vcf.gz \
 -L SeqCap_EZ_Exome_v3_hg19_primary_targets.bed \
 -O HN72_recurrence_somatic.vcf.gz
+
+# filter mutect calls
+# HN51
+java -jar gatk-package-4.0.2.1-local.jar GetPileupSummaries \
+-I HN51.dedup_reads.bqsr.recurrence.bam \
+-V threesamplepon.vcf \
+-O HN51r_getpileupsummaries.table
+
+java -jar gatk-package-4.0.2.1-local.jar CalculateContamination \
+-I HN51r_getpileupsummaries.table \
+-O HN51r_contamination.table
+
+java -jar gatk-package-4.0.2.1-local.jar FilterMutectCalls \
+-V HN51_recurrence_somatic.vcf \
+-contamination-table HN51r_contamination.table \
+-O HN51_recurrence_somatic_filtered.vcf
+
+#HN60
+java -jar gatk-package-4.0.2.1-local.jar GetPileupSummaries \
+-I HN60.dedup_reads.bqsr.recurrence.bam \
+-V threesamplepon.vcf \
+-O HN60r_getpileupsummaries.table
+
+java -jar gatk-package-4.0.2.1-local.jar CalculateContamination \
+-I HN60r_getpileupsummaries.table \
+-O HN60r_contamination.table
+
+java -jar gatk-package-4.0.2.1-local.jar FilterMutectCalls \
+-V HN60_recurrence_somatic.vcf \
+-contamination-table HN60r_contamination.table \
+-O HN60_recurrence_somatic_filtered.vcf
+
+#HN72
+java -jar gatk-package-4.0.2.1-local.jar GetPileupSummaries \
+-I HN72.dedup_reads.bqsr.recurrence.bam \
+-V threesamplepon.vcf \
+-O HN72r_getpileupsummaries.table
+
+java -jar gatk-package-4.0.2.1-local.jar CalculateContamination \
+-I HN72r_getpileupsummaries.table \
+-O HN72r_contamination.table
+
+java -jar gatk-package-4.0.2.1-local.jar FilterMutectCalls \
+-V HN72_recurrence_somatic.vcf \
+-contamination-table HN72r_contamination.table \
+-O HN72_recurrence_somatic_filtered.vcf
 
 
