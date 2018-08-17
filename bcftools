@@ -1,0 +1,16 @@
+# bcftools pipeline
+
+module load tabix
+
+# Combined tumour
+bcftools isec -w 3 -n=2 HN51_tumour_somatic_filtered.vcf.gz HN60_tumour_somatic_filtered.vcf.gz HN72_tumour_somatic_filtered.vcf.gz -p dir6
+
+
+# Combined recurrence
+bcftools isec -w 3 -n=2 HN51_recurrence_somatic_filtered.vcf.gz HN60_recurrence_somatic_filtered.vcf.gz HN72_recurrence_somatic_filtered.vcf.gz -p dir7
+
+# Tumour and normal
+bcftools isec -w 2 -n=2 /data4/nextgen2015/users/17235058/thesis/normal/threesamplepon.vcf.gz commontumourvariants.vcf.gz -p dir10
+
+# Recurrence and normal
+bcftools isec -w 2 -n=2 /data4/nextgen2015/users/17235058/thesis/normal/threesamplepon.vcf.gz commonRecurrencevariants.vcf.gz -p dir11
